@@ -1,6 +1,7 @@
 import json
 import six
 
+from django import VERSION
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -11,7 +12,13 @@ except ImportError:
     from django.utils.encoding import smart_text
 
 
-class JSONField(six.with_metaclass(models.SubfieldBase, models.TextField)):
+if VERSION >= (1, 8):
+    _JSONField = models.TextField
+else:
+    _JSONField = six.with_metaclass(models.SubfieldBase, models.TextField)
+
+
+class JSONField(_JSONField):
     """Simple JSON field that stores python structures as JSON strings
     on database.
     """
@@ -19,6 +26,9 @@ class JSONField(six.with_metaclass(models.SubfieldBase, models.TextField)):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('default', '{}')
         super(JSONField, self).__init__(*args, **kwargs)
+
+    def from_db_value(self, value, expression, connection, context):
+        return self.to_python(value)
 
     def to_python(self, value):
         """
