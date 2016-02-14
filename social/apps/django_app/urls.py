@@ -5,10 +5,6 @@ try:
 except ImportError:
     # Django < 1.4
     from django.conf.urls.defaults import url
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 
 from social.utils import setting_name
 from social.apps.django_app import views
@@ -16,10 +12,6 @@ from social.apps.django_app import views
 
 extra = getattr(settings, setting_name('TRAILING_SLASH'), True) and '/' or ''
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 urlpatterns = [
     # authentication / association
     url(r'^login/(?P<backend>[^/]+){0}$'.format(extra), views.auth,
@@ -30,9 +22,5 @@ urlpatterns = [
     url(r'^disconnect/(?P<backend>[^/]+){0}$'.format(extra), views.disconnect,
         name='disconnect'),
     url(r'^disconnect/(?P<backend>[^/]+)/(?P<association_id>[^/]+){0}$'
-<<<<<<< HEAD
-            .format(extra), views.disconnect, name='disconnect_individual'),
-=======
         .format(extra), views.disconnect, name='disconnect_individual'),
->>>>>>> master
 ]
